@@ -33,7 +33,8 @@
             "apache-lb",
             "varnish",
             "varnish-dockerized",
-            "payara"
+            "payara",
+            "wildfly"
         ]
     },
     "version": "1.3",
