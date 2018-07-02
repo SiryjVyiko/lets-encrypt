@@ -11,8 +11,8 @@ cd /opt/letsencrypt
 git reset --hard
 git pull origin master
 
-iptables -I INPUT -p tcp -m tcp --dport 9999 -j ACCEPT
-iptables -t nat -I PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 9999
+iptables -I INPUT -p tcp -m tcp --dport 12345 -j ACCEPT
+iptables -t nat -I PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 12345
 
 #Parameters for test certificates
 test_params='';
@@ -28,10 +28,10 @@ killall -9 letsencrypt-auto > /dev/null 2>&1
 killall -9 letsencrypt > /dev/null 2>&1
 
 #Request for certificates
-/opt/letsencrypt/letsencrypt-auto certonly --standalone $test_params --domain $domain --preferred-challenges http-01 --http-01-port 9999 --renew-by-default --email $email --agree-tos
+/opt/letsencrypt/letsencrypt-auto certonly --standalone $test_params --domain $domain --preferred-challenges http-01 --http-01-port 12345 --renew-by-default --email $email --agree-tos
 
-iptables -t nat -D PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 9999
-iptables -D INPUT -p tcp -m tcp --dport 9999 -j ACCEPT
+iptables -t nat -D PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 12345
+iptables -D INPUT -p tcp -m tcp --dport 12345 -j ACCEPT
 
 #To be sure that r/w access
 mkdir -p /tmp/
